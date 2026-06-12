@@ -1,0 +1,14 @@
+<div class="lock-screen" (click)="systemService.unlock()">
+  <div class="clock">
+    <div class="time">{{ currentTime | date:'HH:mm' }}</div>
+    <div class="date">{{ currentTime | date:'EEEE, MMM d' }}</div>
+  </div>
+  
+  <div class="user-profile">
+    <div class="avatar">
+      <i class="fa-solid fa-user"></i>
+    </div>
+    <div class="name">Tonia</div>
+    <div class="prompt">Click anywhere to unlock</div>
+  </div>
+</div>

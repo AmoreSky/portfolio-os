@@ -1,0 +1,81 @@
+.dock {
+  width: 76px;
+  background-color: var(--ubuntu-panel);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.dock-apps {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  align-items: center;
+}
+
+.dock-icon {
+  width: 58px;
+  height: 52px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.2s, transform 0.1s;
+  position: relative;
+  
+  i {
+    font-size: 22px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+  }
+  
+  .dock-label {
+    font-size: 10px;
+    margin-top: 4px;
+    text-align: center;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    word-break: break-word;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.menu-icon {
+  margin-bottom: 10px;
+  i {
+    font-size: 24px;
+  }
+}
+
+.dock-icon.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dock-icon.focused {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background-color: var(--ubuntu-orange);
+  border-radius: 0 4px 4px 0;
+}

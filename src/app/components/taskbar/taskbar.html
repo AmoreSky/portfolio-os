@@ -1,0 +1,17 @@
+<div class="taskbar">
+  <div class="taskbar-left" (click)="windowService.toggleActivities()">
+    <div class="workspace-indicator" [class.active-launcher]="windowService.activities$ | async">
+      <div class="pill active"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="taskbar-center">
+    <span>{{ currentTime | date:'MMM d  HH:mm' }}</span>
+  </div>
+  <div class="taskbar-right">
+    <i class="fa-solid fa-wifi"></i>
+    <i class="fa-solid fa-volume-up"></i>
+    <i class="fa-solid fa-battery-full"></i>
+    <i class="fa-solid fa-power-off" (click)="systemService.lock()"></i>
+  </div>
+</div>

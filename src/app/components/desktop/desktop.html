@@ -1,0 +1,42 @@
+<div class="desktop">
+  <app-taskbar></app-taskbar>
+  <div class="desktop-content">
+    <app-dock></app-dock>
+    
+    <!-- Open Windows -->
+    <ng-container *ngIf="windowService.windows$ | async as windows">
+      <app-window *ngFor="let win of windows; let i = index" [window]="win" [zIndex]="win.zIndex"></app-window>
+    </ng-container>
+
+    <!-- App Launcher Overlay -->
+    <div class="app-launcher" *ngIf="windowService.launcher$ | async" (click)="closeLauncher($event)">
+      <div class="launcher-grid">
+        <div class="launcher-icon" *ngFor="let app of apps" (click)="openApp(app.id); windowService.closeLauncher()">
+          <i class="fa-solid {{app.icon}}"></i>
+          <span>{{app.title}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities Overlay (Running Apps) -->
+    <div class="activities-overlay" *ngIf="windowService.activities$ | async" (click)="closeActivities($event)">
+      <div class="activities-grid">
+        <ng-container *ngIf="windowService.windows$ | async as openWindows">
+          <div class="activity-window" *ngFor="let win of openWindows" (click)="openApp(win.id); windowService.closeActivities()">
+            <div class="activity-header">
+              <i class="fa-solid {{win.icon}}"></i>
+              <span>{{win.title}}</span>
+              <button class="activity-close" (click)="$event.stopPropagation(); windowService.closeApp(win.id)">&#10005;</button>
+            </div>
+            <div class="activity-content-preview">
+              <i class="fa-solid {{win.icon}} preview-icon"></i>
+            </div>
+          </div>
+          <div *ngIf="openWindows.length === 0" class="no-windows">
+            No Open Windows
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
