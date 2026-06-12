@@ -12,7 +12,7 @@ import { WindowService, APPS, AppWindow } from '../../services/window';
 export class Dock {
   dockApps = APPS;
 
-  constructor(public windowService: WindowService) {}
+  constructor(public windowService: WindowService) { }
 
   toggleApp(appId: string, event: Event) {
     event.stopPropagation();
@@ -22,7 +22,7 @@ export class Dock {
   isAppOpen(appId: string, openWindows: AppWindow[]): boolean {
     return openWindows.some(w => w.id === appId);
   }
-  
+
   isAppFocused(appId: string, openWindows: AppWindow[]): boolean {
     return openWindows.some(w => w.id === appId && w.isFocused);
   }

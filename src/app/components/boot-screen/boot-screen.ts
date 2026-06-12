@@ -10,7 +10,7 @@ import { SystemService } from '../../services/system';
   styleUrls: ['./boot-screen.scss']
 })
 export class BootScreen implements OnInit {
-  constructor(private systemService: SystemService) {}
+  constructor(private systemService: SystemService) { }
 
   ngOnInit() {
     // Simulate a 2.5 second boot sequence

@@ -29,11 +29,11 @@ export class WindowComponent implements OnInit {
 
   componentType!: Type<any>;
   isMaximized = false;
-  
+
   // Save previous geometry before maximizing
   prevGeometry = { x: 0, y: 0, width: 0, height: 0 };
 
-  constructor(private windowService: WindowService) {}
+  constructor(private windowService: WindowService) { }
 
   ngOnInit() {
     this.componentType = COMPONENT_MAP[this.window.component];

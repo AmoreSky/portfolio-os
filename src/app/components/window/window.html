@@ -1,18 +1,11 @@
-<div 
-  class="window-container"
-  [class.minimized]="window.isMinimized"
-  [class.maximized]="isMaximized"
-  [class.focused]="window.isFocused"
-  [style.z-index]="zIndex"
+<div class="window-container" [class.minimized]="window.isMinimized" [class.maximized]="isMaximized"
+  [class.focused]="window.isFocused" [style.z-index]="zIndex"
   [style.width.px]="isMaximized ? null : window.geometry.width"
   [style.height.px]="isMaximized ? null : window.geometry.height"
   [style.transform]="isMaximized ? 'none' : 'translate3d(' + window.geometry.x + 'px, ' + window.geometry.y + 'px, 0)'"
-  cdkDrag 
-  [cdkDragDisabled]="isMaximized"
-  [cdkDragFreeDragPosition]="{x: window.geometry.x, y: window.geometry.y}"
-  (mousedown)="focus()"
-  (cdkDragStarted)="focus()">
-  
+  cdkDrag [cdkDragDisabled]="isMaximized" [cdkDragFreeDragPosition]="{x: window.geometry.x, y: window.geometry.y}"
+  (mousedown)="focus()" (cdkDragStarted)="focus()">
+
   <div class="window-header" cdkDragHandle (dblclick)="maximize($event)">
     <div class="title">{{window.title}}</div>
     <div class="controls">

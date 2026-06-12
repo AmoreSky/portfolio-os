@@ -14,18 +14,21 @@
   display: flex;
   flex: 1;
   position: relative;
-  height: calc(100vh - 28px); /* minus taskbar height */
+  height: calc(100vh - 28px);
+  /* minus taskbar height */
 }
 
 .icons-container {
-  display: none; /* Removing desktop icons to focus purely on the dock */
+  display: none;
+  /* Removing desktop icons to focus purely on the dock */
 }
 
 .desktop-icon {
   display: none;
 }
 
-.app-launcher, .activities-overlay {
+.app-launcher,
+.activities-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +36,8 @@
   height: 100%;
   background-color: rgba(30, 30, 30, 0.85);
   backdrop-filter: blur(10px);
-  z-index: 50; /* Above windows but below dock/taskbar if possible, dock is 100 */
+  z-index: 50;
+  /* Above windows but below dock/taskbar if possible, dock is 100 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,17 +60,17 @@
   padding: 15px;
   border-radius: 12px;
   transition: background-color 0.2s, transform 0.1s;
-  
+
   i {
     font-size: 48px;
     margin-bottom: 12px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
   }
 
   span {
     font-size: 14px;
     text-align: center;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   }
 
   &:hover {
@@ -93,7 +97,7 @@
   background-color: var(--window-bg);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
@@ -101,8 +105,8 @@
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-    
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+
     .activity-close {
       opacity: 1;
     }

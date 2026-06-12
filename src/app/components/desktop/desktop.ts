@@ -14,8 +14,8 @@ import { WindowService, APPS } from '../../services/window';
 })
 export class Desktop {
   apps = APPS;
-  
-  constructor(public windowService: WindowService) {}
+
+  constructor(public windowService: WindowService) { }
 
   openApp(appId: string) {
     this.windowService.openApp(appId);

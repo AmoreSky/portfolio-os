@@ -5,13 +5,9 @@
       <i class="fa-solid fa-grip"></i>
       <span class="dock-label">Apps</span>
     </div>
-    
-    <div 
-      class="dock-icon" 
-      *ngFor="let app of dockApps" 
-      [class.active]="isAppOpen(app.id, windows)"
-      [class.focused]="isAppFocused(app.id, windows)"
-      (click)="toggleApp(app.id, $event)">
+
+    <div class="dock-icon" *ngFor="let app of dockApps" [class.active]="isAppOpen(app.id, windows)"
+      [class.focused]="isAppFocused(app.id, windows)" (click)="toggleApp(app.id, $event)">
       <div class="icon-indicator" *ngIf="isAppOpen(app.id, windows)"></div>
       <i class="fa-solid {{app.icon}}"></i>
       <span class="dock-label">{{app.title}}</span>

@@ -20,7 +20,7 @@
   font-size: 48px;
   font-weight: 300;
   margin-bottom: 50px;
-  
+
   i {
     color: #E95420;
     font-size: 64px;
@@ -37,6 +37,11 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

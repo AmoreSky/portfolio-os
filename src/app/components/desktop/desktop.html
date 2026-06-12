@@ -2,7 +2,7 @@
   <app-taskbar></app-taskbar>
   <div class="desktop-content">
     <app-dock></app-dock>
-    
+
     <!-- Open Windows -->
     <ng-container *ngIf="windowService.windows$ | async as windows">
       <app-window *ngFor="let win of windows; let i = index" [window]="win" [zIndex]="win.zIndex"></app-window>
@@ -22,11 +22,13 @@
     <div class="activities-overlay" *ngIf="windowService.activities$ | async" (click)="closeActivities($event)">
       <div class="activities-grid">
         <ng-container *ngIf="windowService.windows$ | async as openWindows">
-          <div class="activity-window" *ngFor="let win of openWindows" (click)="openApp(win.id); windowService.closeActivities()">
+          <div class="activity-window" *ngFor="let win of openWindows"
+            (click)="openApp(win.id); windowService.closeActivities()">
             <div class="activity-header">
               <i class="fa-solid {{win.icon}}"></i>
               <span>{{win.title}}</span>
-              <button class="activity-close" (click)="$event.stopPropagation(); windowService.closeApp(win.id)">&#10005;</button>
+              <button class="activity-close"
+                (click)="$event.stopPropagation(); windowService.closeApp(win.id)">&#10005;</button>
             </div>
             <div class="activity-content-preview">
               <i class="fa-solid {{win.icon}} preview-icon"></i>

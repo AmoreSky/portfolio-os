@@ -28,13 +28,13 @@ export class WindowService {
   private windows: AppWindow[] = [];
   private windowsSubject = new BehaviorSubject<AppWindow[]>(this.windows);
   windows$ = this.windowsSubject.asObservable();
-  
+
   private launcherSubject = new BehaviorSubject<boolean>(false);
   launcher$ = this.launcherSubject.asObservable();
-  
+
   private activitiesSubject = new BehaviorSubject<boolean>(false);
   activities$ = this.activitiesSubject.asObservable();
-  
+
   private maxZIndex = 10;
 
   toggleLauncher() {
@@ -65,7 +65,7 @@ export class WindowService {
     if (!appDef) return;
 
     this.maxZIndex++;
-    
+
     // Calculate a slight randomly offset position so they don't exactly stack
     const offset = this.windows.length * 30;
 
@@ -118,7 +118,7 @@ export class WindowService {
       this.emit();
     }
   }
-  
+
   updateGeometry(appId: string, x: number, y: number) {
     const win = this.windows.find(w => w.id === appId);
     if (win) {

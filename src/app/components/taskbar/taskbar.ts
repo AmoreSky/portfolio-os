@@ -14,7 +14,7 @@ export class Taskbar implements OnInit, OnDestroy {
   currentTime: Date = new Date();
   private timer: any;
 
-  constructor(public windowService: WindowService, public systemService: SystemService) {}
+  constructor(public windowService: WindowService, public systemService: SystemService) { }
 
   ngOnInit() {
     this.timer = setInterval(() => {

@@ -13,7 +13,7 @@ export class LockScreen implements OnInit, OnDestroy {
   currentTime: Date = new Date();
   private timer: any;
 
-  constructor(public systemService: SystemService) {}
+  constructor(public systemService: SystemService) { }
 
   ngOnInit() {
     this.timer = setInterval(() => {
