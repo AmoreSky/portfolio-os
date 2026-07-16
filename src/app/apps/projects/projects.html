@@ -1,7 +1,142 @@
-<div style="padding: 20px;">
-  <h2>Projects</h2>
-  <ul>
-    <li>Project 1 - Description</li>
-    <li>Project 2 - Description</li>
-  </ul>
+<div class="projects-container">
+
+  <!-- ─── Header ──────────────────────────────────────────────────────────── -->
+  <div class="projects-header">
+    <div class="header-left">
+      <div class="folder-icon">
+        <i class="fa-solid fa-folder-open"></i>
+      </div>
+      <div class="header-text">
+        <h1>My Projects</h1>
+        <p class="subtitle">
+          <i class="fa-brands fa-github"></i>
+          github.com/AmoreSky
+          <span class="fallback-badge" *ngIf="isUsingFallback">
+            <span class="sync-dot"></span> syncing…
+          </span>
+          <span class="synced-time" *ngIf="!isUsingFallback && lastSynced">
+            · synced {{ getRelativeTime(lastSynced) }}
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button
+        class="refresh-btn"
+        [class.spinning]="isSyncing"
+        (click)="forceRefresh()"
+        [disabled]="isSyncing"
+        title="Sync from GitHub">
+        <i class="fa-solid fa-rotate"></i>
+      </button>
+      <a href="https://github.com/AmoreSky" target="_blank" class="github-link">
+        <i class="fa-brands fa-github"></i>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── Error Banner (non-blocking) ─────────────────────────────────────── -->
+  <div class="error-banner" *ngIf="error">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    {{ error }}
+    <button class="retry-inline" (click)="forceRefresh()">Retry</button>
+    <button class="dismiss-btn" (click)="error = null">✕</button>
+  </div>
+
+  <!-- ─── Filter Bar ───────────────────────────────────────────────────────── -->
+  <div class="filter-bar">
+    <button
+      *ngFor="let filter of filters"
+      class="filter-btn"
+      [class.active]="activeFilter === filter"
+      (click)="setFilter(filter)">
+      <span class="live-dot" *ngIf="filter === 'deployed'"></span>
+      <span>{{ filter === 'all' ? 'All' : filter === 'deployed' ? 'Live' : filter }}</span>
+      <span class="filter-count" *ngIf="filter === 'all'">{{ projects.length }}</span>
+      <span class="filter-count live-count" *ngIf="filter === 'deployed'">{{ deployedCount }}</span>
+    </button>
+  </div>
+
+  <!-- ─── Stats ────────────────────────────────────────────────────────────── -->
+  <div class="stats-bar">
+    <span class="stat">
+      <i class="fa-solid fa-code-branch"></i>
+      {{ filteredProjects.length }} of {{ projects.length }} repos
+    </span>
+    <span class="stat deployed-stat" *ngIf="deployedCount > 0">
+      <span class="live-dot"></span>
+      {{ deployedCount }} deployed
+    </span>
+    <span class="stat syncing-stat" *ngIf="isSyncing">
+      <i class="fa-solid fa-rotate fa-spin"></i>
+      Syncing from GitHub…
+    </span>
+  </div>
+
+  <!-- ─── Projects Grid ────────────────────────────────────────────────────── -->
+  <div class="projects-grid" *ngIf="filteredProjects.length > 0">
+    <div
+      class="project-card"
+      *ngFor="let project of filteredProjects"
+      [class.deployed]="project.isDeployed"
+      [class.seed]="isUsingFallback">
+
+      <!-- Deployed badge -->
+      <div class="deployed-badge" *ngIf="project.isDeployed">
+        <span class="live-dot"></span>
+        Live
+      </div>
+
+      <!-- Card Header -->
+      <div class="card-header">
+        <div class="lang-badge" [style.background-color]="project.languageColor">
+          {{ project.language.charAt(0) }}
+        </div>
+        <div class="project-name">{{ project.name }}</div>
+      </div>
+
+      <!-- Description -->
+      <p class="project-desc">{{ project.description }}</p>
+
+      <!-- Tags -->
+      <div class="tags">
+        <span class="tag" *ngFor="let tag of project.tags">{{ tag }}</span>
+      </div>
+
+      <!-- Stars -->
+      <div class="stars" *ngIf="project.stars > 0">
+        <i class="fa-solid fa-star"></i> {{ project.stars }}
+      </div>
+
+      <!-- Footer -->
+      <div class="card-footer">
+        <div class="meta">
+          <span class="lang-dot" [style.background-color]="project.languageColor"></span>
+          <span class="lang-name">{{ project.language }}</span>
+          <span class="updated" *ngIf="project.updatedAt && !isUsingFallback">
+            · {{ getRelativeTime(project.updatedAt) }}
+          </span>
+        </div>
+        <div class="card-actions">
+          <a [href]="project.githubUrl" target="_blank" class="btn btn-ghost">
+            <i class="fa-brands fa-github"></i>
+            Code
+          </a>
+          <a *ngIf="project.liveUrl" [href]="project.liveUrl" target="_blank" class="btn btn-live">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            Live
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="filteredProjects.length === 0">
+    <i class="fa-solid fa-folder-open"></i>
+    <p>No projects match this filter.</p>
+    <button class="retry-btn" (click)="setFilter('all')">Show all</button>
+  </div>
+
 </div>
