@@ -67,68 +67,6 @@ const LANGUAGE_COLORS: Record<string, string> = {
 
 const DEFAULT_COLOR = '#8b949e';
 
-// ─── Seed data (renders instantly before any network call) ───────────────────
-// This is shown immediately and replaced when Firestore responds.
-
-export const SEED_PROJECTS: Project[] = [
-  {
-    id: 'seed-1',
-    name: 'Food Share',
-    description: 'A community-driven food sharing platform connecting donors with those in need. Features user authentication, dashboards, and real-time food listings.',
-    language: 'HTML',
-    languageColor: '#e34c26',
-    githubUrl: 'https://github.com/AmoreSky/Food-Share',
-    liveUrl: 'https://food-share-three-xi.vercel.app',
-    isDeployed: true,
-    tags: ['HTML', 'CSS', 'JavaScript'],
-    stars: 0,
-    updatedAt: new Date().toISOString(),
-    syncedAt: '',
-  },
-  {
-    id: 'seed-2',
-    name: 'Portfolio OS',
-    description: 'An Ubuntu-inspired portfolio website built with Angular 19. Features a draggable window system, dock, taskbar, and app launcher.',
-    language: 'TypeScript',
-    languageColor: '#3178c6',
-    githubUrl: 'https://github.com/AmoreSky/portfolio-os',
-    liveUrl: null,
-    isDeployed: false,
-    tags: ['TypeScript', 'Angular'],
-    stars: 0,
-    updatedAt: new Date().toISOString(),
-    syncedAt: '',
-  },
-  {
-    id: 'seed-3',
-    name: 'Data Structures And Algorithm',
-    description: 'A comprehensive collection of data structure and algorithm implementations in JavaScript.',
-    language: 'JavaScript',
-    languageColor: '#f1e05a',
-    githubUrl: 'https://github.com/AmoreSky/data-structures-and-algorithm',
-    liveUrl: null,
-    isDeployed: false,
-    tags: ['JavaScript', 'Algorithms'],
-    stars: 0,
-    updatedAt: new Date().toISOString(),
-    syncedAt: '',
-  },
-  {
-    id: 'seed-4',
-    name: 'Community Update',
-    description: 'A community-focused web application for sharing and managing local updates and announcements.',
-    language: 'TypeScript',
-    languageColor: '#3178c6',
-    githubUrl: 'https://github.com/AmoreSky/CommunityUpdate',
-    liveUrl: null,
-    isDeployed: false,
-    tags: ['TypeScript', 'Angular'],
-    stars: 0,
-    updatedAt: new Date().toISOString(),
-    syncedAt: '',
-  },
-];
-
 // ─── Sync config ─────────────────────────────────────────────────────────────
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours

@@ -580,3 +580,24 @@
     font-size: 14px;
   }
 }
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  color: rgba(255, 255, 255, 0.35);
+  gap: 14px;
+
+  i {
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+}

@@ -1,75 +1,84 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, AsyncPipe } from '@angular/common';
+import { map, combineLatest } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   GithubProjectsService,
   Project,
-  SEED_PROJECTS,
 } from '../../services/github-projects.service';
 
 @Component({
   selector: 'app-projects',
-  imports: [CommonModule],
+  imports: [CommonModule, AsyncPipe],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })
 export class Projects implements OnInit {
   private svc = inject(GithubProjectsService);
 
-  /** Start with seed data — renders in < 1ms before any network call */
-  projects: Project[] = SEED_PROJECTS;
-  filteredProjects: Project[] = SEED_PROJECTS;
+  readonly isSyncing$ = this.svc.isSyncing$;
+  readonly error$ = this.svc.error$;
 
-  isSyncing = false;
-  error: string | null = null;
   activeFilter = 'all';
-  lastSynced: string | null = null;
+  private activeFilter$ = new BehaviorSubject<string>('all');
 
-  /** True until the first real Firestore emission replaces seed data */
-  isUsingFallback = true;
+  /** All projects from Firestore — reactive, no seed data */
+  readonly allProjects$ = this.svc.projects$;
+
+  /** Derived: filtered view, reacts to both projects and filter changes */
+  readonly filteredProjects$ = combineLatest([
+    this.allProjects$,
+    this.activeFilter$,
+  ]).pipe(
+    map(([projects, filter]) => this.applyFilter(projects, filter)),
+  );
+
+  /** Derived: available filter chips */
+  readonly filters$ = this.allProjects$.pipe(
+    map((projects) => {
+      const langs = [...new Set(projects.map((p) => p.language))].filter(Boolean);
+      return ['all', 'deployed', ...langs];
+    }),
+  );
+
+  /** Derived: last synced time from the most-recently-updated project */
+  readonly lastSynced$ = this.allProjects$.pipe(
+    map((projects) => projects[0]?.syncedAt ?? null),
+  );
+
+  /** Derived: total count */
+  readonly totalCount$ = this.allProjects$.pipe(map((p) => p.length));
+
+  /** Derived: deployed count */
+  readonly deployedCount$ = this.allProjects$.pipe(
+    map((projects) => projects.filter((p) => p.isDeployed).length),
+  );
+
+  /** Derived: filtered count */
+  readonly filteredCount$ = this.filteredProjects$.pipe(map((p) => p.length));
 
   ngOnInit() {
-    // Subscribe to isSyncing (manual refresh only)
-    this.svc.isSyncing$.subscribe((syncing) => (this.isSyncing = syncing));
-    this.svc.error$.subscribe((err) => (this.error = err));
-
-    // When Firestore emits real data, swap out the seed immediately
-    this.svc.projects$.subscribe((projects) => {
-      if (projects.length > 0) {
-        this.isUsingFallback = false;
-        this.projects = projects;
-        this.applyFilter();
-        this.lastSynced = projects[0]?.syncedAt ?? null;
-      }
-      // If Firestore is still empty (very first ever load),
-      // keep showing seed data — background sync will populate it shortly
-    });
+    // Service handles background sync automatically in its constructor
   }
 
   // ─── Filters ───────────────────────────────────────────────────────────────
 
-  get filters(): string[] {
-    const langs = [...new Set(this.projects.map((p) => p.language))].filter(Boolean);
-    return ['all', 'deployed', ...langs];
-  }
-
   setFilter(filter: string) {
     this.activeFilter = filter;
-    this.applyFilter();
+    this.activeFilter$.next(filter);
   }
 
-  private applyFilter() {
-    switch (this.activeFilter) {
+  private applyFilter(projects: Project[], filter: string): Project[] {
+    switch (filter) {
       case 'all':
-        this.filteredProjects = this.projects;
-        break;
+        return projects;
       case 'deployed':
-        this.filteredProjects = this.projects.filter((p) => p.isDeployed);
-        break;
+        return projects.filter((p) => p.isDeployed);
       default:
-        this.filteredProjects = this.projects.filter(
+        return projects.filter(
           (p) =>
-            p.language === this.activeFilter ||
-            p.tags.some((t) => t.toLowerCase() === this.activeFilter.toLowerCase()),
+            p.language === filter ||
+            p.tags.some((t) => t.toLowerCase() === filter.toLowerCase()),
         );
     }
   }
@@ -80,11 +89,11 @@ export class Projects implements OnInit {
     await this.svc.forceRefresh();
   }
 
-  // ─── Helpers ───────────────────────────────────────────────────────────────
-
-  get deployedCount(): number {
-    return this.projects.filter((p) => p.isDeployed).length;
+  dismissError() {
+    this.svc.error$.next(null);
   }
+
+  // ─── Helpers ───────────────────────────────────────────────────────────────
 
   getRelativeTime(dateStr: string): string {
     if (!dateStr) return '—';
