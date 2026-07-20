@@ -1,5 +1,206 @@
-<div style="padding: 20px;">
-  <h2>Contact</h2>
-  <p>Email: you@example.com</p>
-  <p>GitHub: <a href="https://github.com/AmoreSky" target="_blank">AmoreSky</a></p>
+<div class="contact-container">
+
+  <!-- ─── Header ──────────────────────────────────────────────────────── -->
+  <div class="contact-header">
+    <div class="header-glow"></div>
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="fa-solid fa-paper-plane"></i>
+      </div>
+      <div class="header-text">
+        <h1>Get In Touch</h1>
+        <p class="header-sub">Let's build something great together</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Body ────────────────────────────────────────────────────────── -->
+  <div class="contact-body">
+
+    <!-- ── Left: Info Panel ─────────────────────────────────────────── -->
+    <aside class="info-panel">
+
+      <p class="info-intro">
+        I'm currently open to collaborating on web development projects.
+        Whether you have an idea, a question, or just want to say hi — my inbox is open!
+      </p>
+
+      <!-- Email -->
+      <div class="contact-item" id="contact-email-card">
+        <div class="ci-icon" style="background: linear-gradient(135deg, #0ea5e9, #38bdf8);">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div class="ci-body">
+          <span class="ci-label">Email</span>
+          <span class="ci-value">toniaoluwarantimi&#64;gmail.com</span>
+        </div>
+        <button
+          class="copy-btn"
+          id="contact-copy-email"
+          (click)="copyEmail()"
+          [class.copied]="copied()"
+          [title]="copied() ? 'Copied!' : 'Copy email'"
+        >
+          <i class="fa-solid" [class.fa-check]="copied()" [class.fa-copy]="!copied()"></i>
+        </button>
+      </div>
+
+      <!-- GitHub -->
+      <a
+        class="contact-item contact-item-link"
+        [href]="github_url"
+        target="_blank"
+        rel="noopener"
+        id="contact-github-link"
+      >
+        <div class="ci-icon" style="background: linear-gradient(135deg, #374151, #6b7280);">
+          <i class="fa-brands fa-github"></i>
+        </div>
+        <div class="ci-body">
+          <span class="ci-label">GitHub</span>
+          <span class="ci-value">&#64;AmoreSky</span>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square ci-external"></i>
+      </a>
+
+      <!-- Availability badge -->
+      <div class="availability-badge">
+        <span class="avail-dot"></span>
+        <span>Available for collaboration</span>
+      </div>
+
+    </aside>
+
+    <!-- ── Right: Form ───────────────────────────────────────────────── -->
+    <section class="form-panel">
+
+      <!-- Success state -->
+      @if (isSent) {
+        <div class="success-state" id="contact-success">
+          <div class="success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <h2>Message sent!</h2>
+          <p>Your email client has opened with a pre-filled message. I'll get back to you soon.</p>
+          <button class="btn-primary" id="contact-send-another" (click)="reset()">
+            <i class="fa-solid fa-rotate-left"></i>
+            Send another
+          </button>
+        </div>
+      }
+
+      <!-- Error state -->
+      @if (isError) {
+        <div class="error-banner" id="contact-error">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          Something went wrong. Try emailing directly.
+          <button class="dismiss-err" (click)="reset()">✕</button>
+        </div>
+      }
+
+      <!-- Form -->
+      @if (!isSent) {
+        <form class="contact-form" (ngSubmit)="submit()" #contactForm="ngForm" novalidate>
+
+          <!-- Row: Name + Email -->
+          <div class="form-row">
+            <div class="form-group" [class.focused]="focusedField() === 'name'">
+              <label for="contact-name" class="form-label">
+                <i class="fa-solid fa-user"></i> Name <span class="req">*</span>
+              </label>
+              <input
+                id="contact-name"
+                type="text"
+                class="form-input"
+                placeholder="Your name"
+                [(ngModel)]="name"
+                name="name"
+                autocomplete="name"
+                (focus)="onFocus('name')"
+                (blur)="onBlur()"
+                [disabled]="isSubmitting"
+              />
+            </div>
+
+            <div class="form-group" [class.focused]="focusedField() === 'email'">
+              <label for="contact-email-input" class="form-label">
+                <i class="fa-solid fa-envelope"></i> Email <span class="req">*</span>
+              </label>
+              <input
+                id="contact-email-input"
+                type="email"
+                class="form-input"
+                placeholder="your@email.com"
+                [(ngModel)]="email"
+                name="email"
+                autocomplete="email"
+                (focus)="onFocus('email')"
+                (blur)="onBlur()"
+                [disabled]="isSubmitting"
+              />
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="form-group" [class.focused]="focusedField() === 'subject'">
+            <label for="contact-subject" class="form-label">
+              <i class="fa-solid fa-tag"></i> Subject
+            </label>
+            <input
+              id="contact-subject"
+              type="text"
+              class="form-input"
+              placeholder="What's this about?"
+              [(ngModel)]="subject"
+              name="subject"
+              (focus)="onFocus('subject')"
+              (blur)="onBlur()"
+              [disabled]="isSubmitting"
+            />
+          </div>
+
+          <!-- Message -->
+          <div class="form-group form-group-message" [class.focused]="focusedField() === 'message'">
+            <label for="contact-message" class="form-label">
+              <i class="fa-solid fa-message"></i> Message <span class="req">*</span>
+            </label>
+            <textarea
+              id="contact-message"
+              class="form-input form-textarea"
+              placeholder="Hi Anthonia, I'd love to collaborate on..."
+              [(ngModel)]="message"
+              name="message"
+              rows="5"
+              (focus)="onFocus('message')"
+              (blur)="onBlur()"
+              [disabled]="isSubmitting"
+            ></textarea>
+            <span class="char-hint">{{ message.length }} chars</span>
+          </div>
+
+          <!-- Submit -->
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn-primary btn-submit"
+              id="contact-submit"
+              [disabled]="!canSubmit"
+              [class.loading]="isSubmitting"
+            >
+              @if (isSubmitting) {
+                <i class="fa-solid fa-rotate fa-spin"></i>
+                Sending…
+              } @else {
+                <i class="fa-solid fa-paper-plane"></i>
+                Send Message
+              }
+            </button>
+            <span class="form-note">Opens your email client</span>
+          </div>
+
+        </form>
+      }
+
+    </section>
+  </div>
 </div>

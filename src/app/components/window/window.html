@@ -1,20 +1,39 @@
-<div class="window-container" [class.minimized]="window.isMinimized" [class.maximized]="isMaximized"
-  [class.focused]="window.isFocused" [style.z-index]="zIndex"
+<div class="window-container"
+  [class.minimized]="window.isMinimized"
+  [class.maximized]="isMaximized"
+  [class.focused]="window.isFocused"
+  [class.resizing]="isResizing"
+  [style.z-index]="zIndex"
   [style.width.px]="isMaximized ? null : window.geometry.width"
   [style.height.px]="isMaximized ? null : window.geometry.height"
   [style.transform]="isMaximized ? 'none' : 'translate3d(' + window.geometry.x + 'px, ' + window.geometry.y + 'px, 0)'"
-  cdkDrag [cdkDragDisabled]="isMaximized" [cdkDragFreeDragPosition]="{x: window.geometry.x, y: window.geometry.y}"
-  (mousedown)="focus()" (cdkDragStarted)="focus()">
+  cdkDrag
+  [cdkDragDisabled]="isMaximized || isResizing"
+  [cdkDragFreeDragPosition]="{x: window.geometry.x, y: window.geometry.y}"
+  (mousedown)="focus()"
+  (cdkDragStarted)="focus()">
 
+  <!-- ─── Resize handles ──────────────────────────────────────────────────── -->
+  <div class="resize-handle resize-n"  (mousedown)="onResizeStart('n',  $event)"></div>
+  <div class="resize-handle resize-ne" (mousedown)="onResizeStart('ne', $event)"></div>
+  <div class="resize-handle resize-e"  (mousedown)="onResizeStart('e',  $event)"></div>
+  <div class="resize-handle resize-se" (mousedown)="onResizeStart('se', $event)"></div>
+  <div class="resize-handle resize-s"  (mousedown)="onResizeStart('s',  $event)"></div>
+  <div class="resize-handle resize-sw" (mousedown)="onResizeStart('sw', $event)"></div>
+  <div class="resize-handle resize-w"  (mousedown)="onResizeStart('w',  $event)"></div>
+  <div class="resize-handle resize-nw" (mousedown)="onResizeStart('nw', $event)"></div>
+
+  <!-- ─── Titlebar ────────────────────────────────────────────────────────── -->
   <div class="window-header" cdkDragHandle (dblclick)="maximize($event)">
     <div class="title">{{window.title}}</div>
     <div class="controls">
-      <button class="minimize" (click)="minimize($event)">&#8212;</button>
-      <button class="maximize" (click)="maximize($event)" [innerHTML]="isMaximized ? '&#10064;' : '&#9744;'"></button>
-      <button class="close" (click)="close($event)">&#10005;</button>
+      <button class="minimize" (click)="minimize($event)" title="Minimize">&#8212;</button>
+      <button class="maximize" (click)="maximize($event)" [innerHTML]="isMaximized ? '&#10064;' : '&#9744;'" title="Maximise"></button>
+      <button class="close"    (click)="close($event)"    title="Close">&#10005;</button>
     </div>
   </div>
 
+  <!-- ─── Content ─────────────────────────────────────────────────────────── -->
   <div class="window-content">
     <ng-container *ngComponentOutlet="componentType"></ng-container>
   </div>

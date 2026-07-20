@@ -128,6 +128,26 @@ export class WindowService {
     }
   }
 
+  updateSize(appId: string, width: number, height: number) {
+    const win = this.windows.find(w => w.id === appId);
+    if (win) {
+      win.geometry.width = width;
+      win.geometry.height = height;
+      this.emit();
+    }
+  }
+
+  updateGeometryFull(appId: string, x: number, y: number, width: number, height: number) {
+    const win = this.windows.find(w => w.id === appId);
+    if (win) {
+      win.geometry.x = x;
+      win.geometry.y = y;
+      win.geometry.width = width;
+      win.geometry.height = height;
+      this.emit();
+    }
+  }
+
   private emit() {
     this.windowsSubject.next([...this.windows]);
   }

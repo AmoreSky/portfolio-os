@@ -1,14 +1,29 @@
-<div class="lock-screen" (click)="systemService.unlock()">
-  <div class="clock">
-    <div class="time">{{ currentTime | date:'HH:mm' }}</div>
-    <div class="date">{{ currentTime | date:'EEEE, MMM d' }}</div>
+<div class="lock-screen" [class.unlocking]="isUnlocking" (click)="unlockScreen()">
+
+  <!-- ─── Center Stack: Clock + Date + Avatar + Name ────────────────────── -->
+  <div class="lock-content">
+    <div class="clock-section">
+      <div class="time">{{ currentTime | date:'HH:mm' }}</div>
+      <div class="date">{{ currentTime | date:'EEEE, MMMM d' }}</div>
+    </div>
+
+    <div class="user-section">
+      <div class="avatar">
+        <img
+          src="https://avatars.githubusercontent.com/u/125351539?v=4"
+          alt="Anthonia"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+        />
+        <i class="fa-solid fa-user" style="display:none"></i>
+      </div>
+      <div class="username">Anthonia</div>
+    </div>
   </div>
 
-  <div class="user-profile">
-    <div class="avatar">
-      <i class="fa-solid fa-user"></i>
-    </div>
-    <div class="name">Tonia</div>
-    <div class="prompt">Click anywhere to unlock</div>
+  <!-- ─── Bottom: Unlock Prompt ─────────────────────────────────────────── -->
+  <div class="unlock-prompt">
+    <i class="fa-solid fa-chevron-up prompt-icon"></i>
+    <span class="prompt-text">Click anywhere to unlock</span>
   </div>
+
 </div>

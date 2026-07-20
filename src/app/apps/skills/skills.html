@@ -1,8 +1,87 @@
-<div style="padding: 20px;">
-  <h2>Skills</h2>
-  <ul>
-    <li>Angular, HTML, CSS</li>
-    <li>JavaScript, TypeScript</li>
-    <li>Linux / Ubuntu UX</li>
-  </ul>
+<div class="skills-container">
+
+  <!-- ─── Header ──────────────────────────────────────────────────────── -->
+  <div class="skills-header">
+    <div class="header-glow"></div>
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="fa-solid fa-star-of-life"></i>
+      </div>
+      <div class="header-text">
+        <h1>Skills &amp; Technologies</h1>
+        <p class="header-sub">{{ totalCount }} technologies across {{ categories.length - 1 }} categories</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Category Filter Bar ─────────────────────────────────────────── -->
+  <div class="filter-bar">
+    @for (cat of categories; track cat.id) {
+      <button
+        class="filter-btn"
+        [class.active]="activeCategory() === cat.id"
+        [id]="'skills-filter-' + cat.id"
+        (click)="setCategory(cat.id)"
+      >
+        <i [class]="cat.icon"></i>
+        <span>{{ cat.label }}</span>
+        <span class="filter-count">{{ categoryCount(cat.id) }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- ─── Skills Grid ──────────────────────────────────────────────────── -->
+  <div class="skills-grid">
+    @for (skill of filteredSkills(); track skill.name) {
+      <div class="skill-card" [style.--accent]="skill.color">
+
+        <!-- Icon -->
+        <div class="skill-icon" [style.background]="'color-mix(in srgb, ' + skill.color + ' 15%, transparent)'">
+          <i [class]="skill.icon" [style.color]="skill.color"></i>
+        </div>
+
+        <!-- Info -->
+        <div class="skill-info">
+          <div class="skill-top">
+            <span class="skill-name">{{ skill.name }}</span>
+            <span class="skill-label" [class]="'label-' + getLevelClass(skill.label)">{{ skill.label }}</span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-track" [title]="skill.level + '% proficiency'">
+            <div
+              class="progress-fill"
+              [style.width.%]="skill.level"
+              [style.background]="'linear-gradient(90deg, ' + skill.color + 'aa, ' + skill.color + ')'"
+            ></div>
+          </div>
+
+          <span class="skill-percent">{{ skill.level }}%</span>
+        </div>
+
+      </div>
+    }
+  </div>
+
+  <!-- ─── Learning Banner ─────────────────────────────────────────────── -->
+  <div class="learning-banner">
+    <div class="learning-icon">
+      <i class="fa-solid fa-seedling"></i>
+    </div>
+    <div class="learning-text">
+      <strong>Always learning</strong>
+      <span>Currently deepening skills in Angular, Firebase, and full-stack web development.</span>
+    </div>
+    <a
+      href="https://github.com/AmoreSky"
+      target="_blank"
+      rel="noopener"
+      class="learning-link"
+      id="skills-github-link"
+    >
+      <i class="fa-brands fa-github"></i>
+      See my work
+    </a>
+  </div>
+
 </div>

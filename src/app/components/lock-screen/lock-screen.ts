@@ -11,6 +11,7 @@ import { SystemService } from '../../services/system';
 })
 export class LockScreen implements OnInit, OnDestroy {
   currentTime: Date = new Date();
+  isUnlocking = false;
   private timer: any;
 
   constructor(public systemService: SystemService) { }
@@ -19,6 +20,15 @@ export class LockScreen implements OnInit, OnDestroy {
     this.timer = setInterval(() => {
       this.currentTime = new Date();
     }, 1000);
+  }
+
+  unlockScreen() {
+    if (this.isUnlocking) return;
+    this.isUnlocking = true;
+    // GNOME shield slide-up animation duration is ~350ms
+    setTimeout(() => {
+      this.systemService.unlock();
+    }, 350);
   }
 
   ngOnDestroy() {

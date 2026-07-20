@@ -13,9 +13,9 @@ export class BootScreen implements OnInit {
   constructor(private systemService: SystemService) { }
 
   ngOnInit() {
-    // Simulate a 2.5 second boot sequence
+    // Simulate a 3.2 second boot sequence
     setTimeout(() => {
       this.systemService.finishBoot();
-    }, 2500);
+    }, 3200);
   }
 }

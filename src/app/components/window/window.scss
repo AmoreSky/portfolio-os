@@ -1,3 +1,5 @@
+// ─── Window container ──────────────────────────────────────────────────────────
+
 .window-container {
   position: absolute;
   top: 0;
@@ -9,10 +11,9 @@
   flex-direction: column;
   overflow: hidden;
   transition: opacity 0.2s;
-  /* No transform transition here to avoid lag */
+  // No transform/size transition here — avoids lag during drag/resize
 }
 
-/* Remove transform transition to avoid dragging lag */
 .window-container.cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
@@ -29,6 +30,14 @@
   height: 100% !important;
   transform: none !important;
   border-radius: 0;
+
+  // Hide resize handles when maximized
+  .resize-handle { display: none; }
+}
+
+.window-container.resizing {
+  // Prevent content from interfering during resize
+  .window-content { pointer-events: none; }
 }
 
 .window-container:not(.focused) {
@@ -40,6 +49,8 @@
   }
 }
 
+// ─── Titlebar ─────────────────────────────────────────────────────────────────
+
 .window-header {
   height: 38px;
   background-color: #f6f6f6;
@@ -50,6 +61,7 @@
   position: relative;
   cursor: default;
   border-bottom: 1px solid #ddd;
+  flex-shrink: 0; // prevent it from collapsing during resize
 
   .title {
     font-weight: 500;
@@ -93,14 +105,73 @@
   }
 }
 
+// ─── Content ──────────────────────────────────────────────────────────────────
+
 .window-content {
   flex: 1;
   overflow: auto;
   background-color: var(--window-bg);
   color: var(--window-text);
   padding: 0;
+  min-height: 0; // required for flex child to scroll correctly
 }
 
-.window-container {
-  resize: both;
+// ─── Resize handles ───────────────────────────────────────────────────────────
+
+$handle-edge: 6px;   // thickness of edge handles
+$handle-corner: 12px; // size of corner handles
+
+.resize-handle {
+  position: absolute;
+  z-index: 10; // above content
+}
+
+// Edge handles — thin strips along each side
+.resize-n {
+  top: 0; left: $handle-corner; right: $handle-corner;
+  height: $handle-edge;
+  cursor: n-resize;
+}
+
+.resize-s {
+  bottom: 0; left: $handle-corner; right: $handle-corner;
+  height: $handle-edge;
+  cursor: s-resize;
+}
+
+.resize-e {
+  right: 0; top: $handle-corner; bottom: $handle-corner;
+  width: $handle-edge;
+  cursor: e-resize;
+}
+
+.resize-w {
+  left: 0; top: $handle-corner; bottom: $handle-corner;
+  width: $handle-edge;
+  cursor: w-resize;
+}
+
+// Corner handles — overlap the edge handles at the corners
+.resize-ne {
+  top: 0; right: 0;
+  width: $handle-corner; height: $handle-corner;
+  cursor: ne-resize;
+}
+
+.resize-nw {
+  top: 0; left: 0;
+  width: $handle-corner; height: $handle-corner;
+  cursor: nw-resize;
+}
+
+.resize-se {
+  bottom: 0; right: 0;
+  width: $handle-corner; height: $handle-corner;
+  cursor: se-resize;
+}
+
+.resize-sw {
+  bottom: 0; left: 0;
+  width: $handle-corner; height: $handle-corner;
+  cursor: sw-resize;
 }

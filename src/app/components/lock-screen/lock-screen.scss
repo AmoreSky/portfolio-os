@@ -1,0 +1,160 @@
+// ─── Lock Screen — Ubuntu 24.04 (GNOME 46) Shield style ──────────────────
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10vh 0 40px;
+  cursor: pointer;
+  z-index: 9999;
+  user-select: none;
+  animation: lock-fade-in 0.3s ease-out;
+  overflow: hidden;
+  will-change: transform, opacity;
+
+  // GNOME shield unlock slide-up
+  &.unlocking {
+    transform: translate3d(0, -100vh, 0);
+    opacity: 0;
+    transition: transform 350ms cubic-bezier(0.2, 1, 0.3, 1), opacity 350ms ease;
+  }
+
+  // ── Background: Ubuntu 24.04 (Noble Numbat) wallpaper with GNOME blur ──
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -50px; // extend past viewport to hide blur edges
+    background:
+      url('https://raw.githubusercontent.com/ubuntu/yaru/master/wallpapers/ubuntu-wallpaper-d.jpg')
+      center / cover no-repeat,
+      linear-gradient(160deg, #1A1A1A 0%, #301E2E 40%, #1A1423 75%, #0F0F14 100%);
+    filter: blur(40px) brightness(0.65);
+    transform: scale(1.05);
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@keyframes lock-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ─── Center Stack: Clock + Avatar ──────────────────────────────────────────
+
+.lock-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+}
+
+.clock-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+// GNOME 46 clock is bolder and thicker than GNOME 42
+.time {
+  font-size: clamp(84px, 12vw, 120px);
+  font-weight: 700; // Bold, replacing the ultra-thin font in older GNOME
+  color: #ffffff;
+  letter-spacing: -2px;
+  line-height: 1;
+  font-family: 'Ubuntu', 'Inter', -apple-system, sans-serif;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.date {
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  font-family: 'Ubuntu', 'Inter', -apple-system, sans-serif;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+// ─── User Section ─────────────────────────────────────────────────────────────
+
+.user-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 96px; // Slightly larger for GNOME 46
+  height: 96px;
+  border-radius: 50%;
+  background: #3B2A40; // Dark grey-purple
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 8px 32px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  i {
+    font-size: 36px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.username {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: 'Ubuntu', 'Inter', -apple-system, sans-serif;
+  letter-spacing: 0.2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+// ─── Bottom: Unlock Prompt ────────────────────────────────────────────────────
+
+.unlock-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.7);
+
+  .prompt-icon {
+    font-size: 18px;
+    animation: prompt-bounce 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .prompt-text {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Ubuntu', 'Inter', -apple-system, sans-serif;
+    letter-spacing: 0.5px;
+  }
+}
+
+@keyframes prompt-bounce {
+  0%, 100% { transform: translateY(0);   opacity: 0.5; }
+  50%       { transform: translateY(-6px); opacity: 0.9; }
+}
