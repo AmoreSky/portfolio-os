@@ -31,8 +31,8 @@ export const WALLPAPER_OPTIONS: WallpaperOption[] = [
   {
     id: 'default',
     label: 'Ubuntu Default',
-    url: '/wallpaper.png',
-    thumbnail: '/wallpaper.png',
+    url: '/wallpaper.jpg',
+    thumbnail: '/wallpaper.jpg',
   },
   {
     id: 'geometric',
