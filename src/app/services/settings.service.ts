@@ -75,7 +75,11 @@ export class SettingsService {
   );
 
   readonly wallpaperUrl = signal<string>(
-    localStorage.getItem(STORAGE_WALLPAPER) ?? '/wallpaper.png'
+    (() => {
+      const stored = localStorage.getItem(STORAGE_WALLPAPER);
+      if (stored === '/wallpaper.png') return '/wallpaper.jpg';
+      return stored ?? '/wallpaper.jpg';
+    })()
   );
 
   readonly activeWallpaperId = computed(() => {
