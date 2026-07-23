@@ -6,7 +6,7 @@
   left: 0;
   background-color: var(--window-bg);
   border-radius: 8px 8px 0 0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.55);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -41,10 +41,10 @@
 }
 
 .window-container:not(.focused) {
-  opacity: 0.95;
+  opacity: 0.92;
 
   .window-header {
-    background-color: #e0e0e0;
+    background-color: var(--ub-win-header-blur);
     color: #888;
   }
 }
@@ -53,14 +53,14 @@
 
 .window-header {
   height: 38px;
-  background-color: #f6f6f6;
-  color: #333;
+  background-color: var(--ub-win-header);
+  color: var(--ub-win-text);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   cursor: default;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #CCCCCC;
   flex-shrink: 0; // prevent it from collapsing during resize
 
   .title {
@@ -85,20 +85,20 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      color: #333;
+      color: #555;
       font-size: 12px;
       padding: 0;
 
       &:hover {
-        background-color: #ddd;
+        background-color: #C8C8C8;
       }
 
       &.close {
         color: white;
-        background-color: #E95420;
+        background-color: var(--ub-orange);
 
         &:hover {
-          background-color: #d14214;
+          background-color: var(--ub-orange-hover);
         }
       }
     }

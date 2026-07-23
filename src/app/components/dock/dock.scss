@@ -1,6 +1,6 @@
 .dock {
   width: 76px;
-  background-color: var(--ubuntu-panel);
+  background-color: var(--ub-bg-dark);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.12);
   }
 
   &:active {
@@ -63,11 +63,11 @@
 }
 
 .dock-icon.active {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .dock-icon.focused {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .icon-indicator {
@@ -77,6 +77,21 @@
   transform: translateY(-50%);
   width: 4px;
   height: 60%;
-  background-color: var(--ubuntu-orange);
+  background-color: var(--ub-orange);
   border-radius: 0 4px 4px 0;
+}
+
+// ─── Separator between main apps and pinned settings ─────────────────────────
+
+.dock-separator {
+  width: 40px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 4px 0;
+  flex-shrink: 0;
+}
+
+.dock-settings {
+  margin-top: auto;
+  margin-bottom: 4px;
 }

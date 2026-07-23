@@ -27,7 +27,7 @@
     transition: transform 350ms cubic-bezier(0.2, 1, 0.3, 1), opacity 350ms ease;
   }
 
-  // ── Background: Ubuntu 24.04 (Noble Numbat) wallpaper with GNOME blur ──
+  // ── Background: wallpaper with GNOME blur ──
   &::before {
     content: '';
     position: absolute;
@@ -35,7 +35,7 @@
     background:
       url('https://raw.githubusercontent.com/ubuntu/yaru/master/wallpapers/ubuntu-wallpaper-d.jpg')
       center / cover no-repeat,
-      linear-gradient(160deg, #1A1A1A 0%, #301E2E 40%, #1A1423 75%, #0F0F14 100%);
+      linear-gradient(160deg, #1A1A1A 0%, #2C2C2C 100%);
     filter: blur(40px) brightness(0.65);
     transform: scale(1.05);
     z-index: 0;
@@ -72,7 +72,7 @@
 // GNOME 46 clock is bolder and thicker than GNOME 42
 .time {
   font-size: clamp(84px, 12vw, 120px);
-  font-weight: 700; // Bold, replacing the ultra-thin font in older GNOME
+  font-weight: 700;
   color: #ffffff;
   letter-spacing: -2px;
   line-height: 1;
@@ -100,10 +100,10 @@
 }
 
 .avatar {
-  width: 96px; // Slightly larger for GNOME 46
+  width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: #3B2A40; // Dark grey-purple
+  background: #3B3B3B; // Neutral dark grey — no purple tint
   display: flex;
   align-items: center;
   justify-content: center;

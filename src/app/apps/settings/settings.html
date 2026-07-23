@@ -1,0 +1,268 @@
+<div class="settings-container">
+
+  <!-- ── Sidebar ───────────────────────────────────────────────────────── -->
+  <nav class="settings-sidebar">
+    <div class="sidebar-header">
+      <i class="fa-solid fa-gear sidebar-logo"></i>
+      <span class="sidebar-title">Settings</span>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li
+        class="nav-item"
+        [class.active]="activePanel() === 'appearance'"
+        (click)="selectPanel('appearance')"
+        id="settings-nav-appearance"
+      >
+        <i class="fa-solid fa-palette"></i>
+        <span>Appearance</span>
+      </li>
+      <li
+        class="nav-item"
+        [class.active]="activePanel() === 'wallpaper'"
+        (click)="selectPanel('wallpaper')"
+        id="settings-nav-wallpaper"
+      >
+        <i class="fa-solid fa-image"></i>
+        <span>Wallpaper</span>
+      </li>
+      <li
+        class="nav-item"
+        [class.active]="activePanel() === 'accent'"
+        (click)="selectPanel('accent')"
+        id="settings-nav-accent"
+      >
+        <i class="fa-solid fa-droplet"></i>
+        <span>Accent Color</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button class="reset-btn" (click)="resetDefaults()" id="settings-reset">
+        <i class="fa-solid fa-rotate-left"></i>
+        Reset Defaults
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Main Panel ────────────────────────────────────────────────────── -->
+  <main class="settings-main">
+
+    <!-- ── Appearance Overview ── -->
+    @if (activePanel() === 'appearance') {
+      <div class="panel" id="settings-panel-appearance">
+        <div class="panel-header">
+          <h1 class="panel-title">Appearance</h1>
+          <p class="panel-sub">Customize the look and feel of your desktop</p>
+        </div>
+
+        <!-- Quick: Wallpaper preview -->
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-image"></i>
+            <span>Wallpaper</span>
+          </div>
+          <div class="appearance-preview" (click)="selectPanel('wallpaper')" id="settings-wp-preview">
+            <div class="wp-preview-thumb"
+              [style.backgroundImage]="'url(' + settingsService.wallpaperUrl() + ')'">
+            </div>
+            <div class="wp-preview-meta">
+              <span class="wp-active-label">{{ settingsService.activeWallpaperId() === 'custom' ? 'Custom Wallpaper' : 'Active Wallpaper' }}</span>
+              <span class="wp-change-hint">Click to change <i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick: Accent color row -->
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-droplet"></i>
+            <span>Accent Color</span>
+          </div>
+          <div class="accent-quick-row">
+            @for (swatch of swatches; track swatch.color) {
+              <button
+                class="swatch-btn"
+                [style.background]="swatch.color"
+                [class.swatch-active]="isActiveSwatch(swatch.color)"
+                [title]="swatch.label"
+                (click)="selectSwatch(swatch)"
+              ></button>
+            }
+            <label class="swatch-btn swatch-custom" title="Custom color">
+              <i class="fa-solid fa-plus"></i>
+              <input
+                type="color"
+                [value]="customColorInput()"
+                (input)="onColorInputChange($any($event.target).value)"
+                id="settings-color-picker-quick"
+              />
+            </label>
+            @if (settingsService.accentColor() !== customColorInput()) {
+              <button
+                class="apply-btn"
+                style="margin-left: auto; padding: 6px 12px; font-size: 11px;"
+                (click)="applyAccentColor()"
+              >
+                Apply
+              </button>
+            }
+          </div>
+        </section>
+      </div>
+    }
+
+    <!-- ── Wallpaper Panel ── -->
+    @if (activePanel() === 'wallpaper') {
+      <div class="panel" id="settings-panel-wallpaper">
+        <div class="panel-header">
+          <h1 class="panel-title">Wallpaper</h1>
+          <p class="panel-sub">Choose a background for your desktop</p>
+        </div>
+
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Built-in Wallpapers</span>
+          </div>
+          <div class="wallpaper-grid">
+            @for (wp of wallpapers; track wp.id) {
+              <button
+                class="wp-tile"
+                [class.wp-tile-active]="settingsService.activeWallpaperId() === wp.id"
+                (click)="selectWallpaper(wp)"
+                [id]="'settings-wp-' + wp.id"
+                [title]="wp.label"
+              >
+                <div class="wp-tile-img" [style.backgroundImage]="'url(' + wp.thumbnail + ')'"></div>
+                <div class="wp-tile-label">{{ wp.label }}</div>
+                @if (settingsService.activeWallpaperId() === wp.id) {
+                  <div class="wp-tile-check">
+                    <i class="fa-solid fa-check"></i>
+                  </div>
+                }
+              </button>
+            }
+          </div>
+        </section>
+
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-link"></i>
+            <span>Custom URL</span>
+          </div>
+          <div class="custom-url-row">
+            <input
+              type="url"
+              class="url-input"
+              placeholder="https://example.com/my-wallpaper.jpg"
+              [ngModel]="customWallpaperUrl()"
+              (ngModelChange)="customWallpaperUrl.set($event)"
+              id="settings-wp-custom-url"
+            />
+            <button
+              class="apply-btn"
+              (click)="applyCustomWallpaper()"
+              [disabled]="!customWallpaperUrl().trim()"
+              id="settings-wp-apply"
+            >
+              Apply
+            </button>
+          </div>
+        </section>
+      </div>
+    }
+
+    <!-- ── Accent Color Panel ── -->
+    @if (activePanel() === 'accent') {
+      <div class="panel" id="settings-panel-accent">
+        <div class="panel-header">
+          <h1 class="panel-title">Accent Color</h1>
+          <p class="panel-sub">Pick the color used for buttons, highlights, and indicators</p>
+        </div>
+
+        <!-- Live preview strip -->
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-eye"></i>
+            <span>Preview</span>
+          </div>
+          <div class="accent-preview-strip">
+            <button class="preview-btn-primary" [style.background]="customColorInput()">
+              <i class="fa-solid fa-paper-plane"></i> Send Message
+            </button>
+            <div class="preview-tag" [style.border-color]="customColorInput()" [style.color]="customColorInput()">
+              Active Filter
+            </div>
+            <div class="preview-indicator" [style.background]="customColorInput()"></div>
+            <div class="preview-progress-track">
+              <div class="preview-progress-fill" [style.background]="customColorInput()"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Swatches -->
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-swatchbook"></i>
+            <span>Presets</span>
+          </div>
+          <div class="swatch-grid">
+            @for (swatch of swatches; track swatch.color) {
+              <button
+                class="swatch-tile"
+                [class.swatch-tile-active]="isActiveSwatch(swatch.color)"
+                [style.background]="swatch.color"
+                (click)="selectSwatch(swatch)"
+                [id]="'settings-swatch-' + swatch.label.toLowerCase().replace(' ', '-')"
+              >
+                @if (isActiveSwatch(swatch.color)) {
+                  <i class="fa-solid fa-check swatch-check"></i>
+                }
+                <span class="swatch-tile-label">{{ swatch.label }}</span>
+              </button>
+            }
+          </div>
+        </section>
+
+        <!-- Free pick -->
+        <section class="setting-section">
+          <div class="section-label">
+            <i class="fa-solid fa-eyedropper"></i>
+            <span>Custom</span>
+          </div>
+          <div class="custom-color-row">
+            <div class="color-picker-wrapper">
+              <div class="color-swatch-preview" [style.background]="customColorInput()"></div>
+              <input
+                type="color"
+                class="color-input-native"
+                [value]="customColorInput()"
+                (input)="onColorInputChange($any($event.target).value)"
+                id="settings-color-picker"
+              />
+            </div>
+            <input
+              type="text"
+              class="color-hex-input"
+              [value]="customColorInput()"
+              (change)="onColorInputChange($any($event.target).value)"
+              placeholder="#E95420"
+              maxlength="7"
+              id="settings-color-hex"
+            />
+            <button
+              class="apply-btn"
+              (click)="applyAccentColor()"
+              [disabled]="settingsService.accentColor() === customColorInput()"
+              id="settings-color-apply"
+            >
+              Apply Changes
+            </button>
+          </div>
+        </section>
+      </div>
+    }
+
+  </main>
+</div>

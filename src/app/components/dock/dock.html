@@ -6,11 +6,27 @@
       <span class="dock-label">Apps</span>
     </div>
 
-    <div class="dock-icon" *ngFor="let app of dockApps" [class.active]="isAppOpen(app.id, windows)"
+    <!-- App Icons (all except settings) -->
+    <div class="dock-icon" *ngFor="let app of mainApps" [class.active]="isAppOpen(app.id, windows)"
       [class.focused]="isAppFocused(app.id, windows)" (click)="toggleApp(app.id, $event)">
       <div class="icon-indicator" *ngIf="isAppOpen(app.id, windows)"></div>
       <i class="fa-solid {{app.icon}}"></i>
       <span class="dock-label">{{app.title}}</span>
+    </div>
+
+    <!-- Separator -->
+    <div class="dock-separator"></div>
+
+    <!-- Settings (pinned at bottom) -->
+    <div class="dock-icon dock-settings"
+      [class.active]="isAppOpen('settings', windows)"
+      [class.focused]="isAppFocused('settings', windows)"
+      (click)="toggleApp('settings', $event)"
+      title="Settings"
+    >
+      <div class="icon-indicator" *ngIf="isAppOpen('settings', windows)"></div>
+      <i class="fa-solid fa-gear"></i>
+      <span class="dock-label">Settings</span>
     </div>
   </div>
 </div>

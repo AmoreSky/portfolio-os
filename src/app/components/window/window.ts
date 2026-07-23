@@ -16,13 +16,15 @@ import { Projects } from '../../apps/projects/projects';
 import { Skills } from '../../apps/skills/skills';
 import { Resume } from '../../apps/resume/resume';
 import { Contact } from '../../apps/contact/contact';
+import { Settings } from '../../apps/settings/settings';
 
 const COMPONENT_MAP: { [key: string]: Type<any> } = {
-  'AboutComponent': About,
+  'AboutComponent':    About,
   'ProjectsComponent': Projects,
-  'SkillsComponent': Skills,
-  'ResumeComponent': Resume,
-  'ContactComponent': Contact,
+  'SkillsComponent':   Skills,
+  'ResumeComponent':   Resume,
+  'ContactComponent':  Contact,
+  'SettingsComponent': Settings,
 };
 
 const MIN_WIDTH = 320;

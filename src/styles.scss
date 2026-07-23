@@ -14,11 +14,51 @@ html {
   box-sizing: border-box;
 }
 
+/* ─── Ubuntu Minimalist Design Tokens ────────────────────────────────────── */
 :root {
+  /* Runtime-updated by SettingsService */
+  --ub-wallpaper: url('/wallpaper.png');
+  /* Legacy aliases kept for components not yet migrated */
   --ubuntu-orange: #E95420;
-  --ubuntu-bg: #333333;
-  --ubuntu-panel: rgba(17, 17, 17, 0.95);
+  --ubuntu-bg: #2C2C2C;
+  --ubuntu-panel: rgba(26, 26, 26, 0.97);
   --ubuntu-text: #ffffff;
-  --window-bg: #fafafa;
+  --window-bg: #f8f8f8;
   --window-text: #333333;
+
+  /* ── Background hierarchy ── */
+  --ub-bg-dark:    #1A1A1A;   /* dock, taskbar, panels */
+  --ub-bg:         #2C2C2C;   /* app window body */
+  --ub-bg-subtle:  #383838;   /* cards, list items */
+  --ub-bg-hover:   #444444;   /* hover state */
+
+  /* ── Window chrome (light) ── */
+  --ub-win-header:      #E8E8E8;
+  --ub-win-header-blur: #D4D4D4;
+  --ub-win-text:        #333333;
+
+  /* ── Typography ── */
+  --ub-text:       #FFFFFF;
+  --ub-text-dim:   rgba(255, 255, 255, 0.55);
+  --ub-text-faint: rgba(255, 255, 255, 0.30);
+
+  /* ── Borders ── */
+  --ub-border:          rgba(255, 255, 255, 0.08);
+  --ub-border-stronger: rgba(255, 255, 255, 0.15);
+
+  /* ── Accent: Ubuntu Orange (the ONE accent) ── */
+  --ub-orange:        #E95420;
+  --ub-orange-hover:  #C94210;
+  --ub-orange-dim:    rgba(233, 84, 32, 0.15);
+  --ub-orange-border: rgba(233, 84, 32, 0.35);
+
+  /* ── Status: Green (deployed / live / available only) ── */
+  --ub-green:        #77B255;
+  --ub-green-dim:    rgba(119, 178, 85, 0.15);
+  --ub-green-border: rgba(119, 178, 85, 0.35);
+
+  /* ── Errors ── */
+  --ub-red:        #CC3333;
+  --ub-red-dim:    rgba(204, 51, 51, 0.12);
+  --ub-red-border: rgba(204, 51, 51, 0.30);
 }

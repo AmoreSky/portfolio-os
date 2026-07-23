@@ -10,7 +10,8 @@ import { WindowService, APPS, AppWindow } from '../../services/window';
   styleUrls: ['./dock.scss'],
 })
 export class Dock {
-  dockApps = APPS;
+  // All apps except settings — settings gets its own pinned slot at the bottom
+  mainApps = APPS.filter(a => a.id !== 'settings');
 
   constructor(public windowService: WindowService) { }
 

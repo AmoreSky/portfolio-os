@@ -14,11 +14,12 @@ export interface AppWindow {
 }
 
 export const APPS = [
-  { id: 'about', title: 'About Me', icon: 'fa-user', component: 'AboutComponent' },
-  { id: 'projects', title: 'Projects', icon: 'fa-folder-open', component: 'ProjectsComponent' },
-  { id: 'skills', title: 'Skills', icon: 'fa-code', component: 'SkillsComponent' },
-  { id: 'resume', title: 'Resume', icon: 'fa-file-pdf', component: 'ResumeComponent' },
-  { id: 'contact', title: 'Contact', icon: 'fa-envelope', component: 'ContactComponent' },
+  { id: 'about',    title: 'About Me',  icon: 'fa-user',        component: 'AboutComponent' },
+  { id: 'projects', title: 'Projects',  icon: 'fa-folder-open', component: 'ProjectsComponent' },
+  { id: 'skills',   title: 'Skills',   icon: 'fa-code',         component: 'SkillsComponent' },
+  { id: 'resume',   title: 'Resume',   icon: 'fa-file-pdf',     component: 'ResumeComponent' },
+  { id: 'contact',  title: 'Contact',  icon: 'fa-envelope',     component: 'ContactComponent' },
+  { id: 'settings', title: 'Settings', icon: 'fa-gear',         component: 'SettingsComponent' },
 ];
 
 @Injectable({

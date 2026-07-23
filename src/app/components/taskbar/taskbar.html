@@ -5,8 +5,27 @@
       <div class="dot"></div>
     </div>
   </div>
-  <div class="taskbar-center">
-    <span>{{ currentTime | date:'MMM d HH:mm' }}</span>
+  <div class="taskbar-center" (click)="toggleCalendar($event)">
+    <div class="time-display" [class.active]="showCalendar">
+      <span>{{ currentTime | date:'MMM d HH:mm' }}</span>
+    </div>
+
+    <!-- Calendar Dropdown -->
+    <div class="calendar-dropdown" *ngIf="showCalendar" (click)="onCalendarClick($event)">
+      <div class="calendar-header">
+        <button (click)="prevMonth()"><i class="fa-solid fa-chevron-left"></i></button>
+        <span class="month-year">{{ currentMonth | date:'MMMM yyyy' }}</span>
+        <button (click)="nextMonth()"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="calendar-grid">
+        <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
+        <div class="day" *ngFor="let d of daysInMonth" 
+             [class.other-month]="!d.isCurrentMonth"
+             [class.today]="d.isToday">
+          <div class="day-number">{{ d.day }}</div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="taskbar-right">
     <i class="fa-solid fa-wifi"></i>

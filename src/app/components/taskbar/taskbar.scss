@@ -1,7 +1,7 @@
 .taskbar {
   height: 28px;
-  background-color: var(--ubuntu-panel);
-  color: var(--ubuntu-text);
+  background-color: var(--ub-bg-dark);
+  color: var(--ub-text);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,7 +57,119 @@
 }
 
 .taskbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.time-display {
   cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover, &.active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+// ─── Calendar Dropdown ────────────────────────────────────────────────────────
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 4px;
+  background-color: var(--ub-bg-dark, #242424);
+  border: 1px solid var(--ub-border, #3c3c3c);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  width: 300px;
+  padding: 16px;
+  color: var(--ub-text, #ffffff);
+  z-index: 1000;
+  cursor: default;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .month-year {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: var(--ub-text, #ffffff);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.weekday {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ub-text-faint, #9ca3af);
+  margin-bottom: 8px;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  font-size: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  .day-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+  }
+
+  &:hover:not(.today) {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &.other-month {
+    color: var(--ub-text-faint, #6b7280);
+  }
+
+  &.today {
+    .day-number {
+      background-color: var(--ub-orange, #E95420);
+      color: #ffffff;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(233, 84, 32, 0.4);
+    }
+  }
 }
 
 .taskbar-right {
@@ -69,7 +181,7 @@
     font-size: 14px;
 
     &:hover {
-      color: var(--ubuntu-orange);
+      color: var(--ub-orange);
     }
   }
 }
